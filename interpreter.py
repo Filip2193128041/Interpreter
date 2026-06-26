@@ -1,5 +1,3 @@
-#check
-
 tokens= []
 pos=0 
 variables= {}
@@ -200,6 +198,87 @@ def evaluate(node):
     if op == '*': return evaluate(left) * evaluate(right)
     if op == '-': return evaluate(left) - evaluate(right)
     raise Exception(f"Unknown operator: {op}")
+
+
+class Parser:
+    def __init__(self, text):
+        self.tokens = tokenize(text)
+        self.pos = 0
+
+    def peek(self):
+        if self.pos < len(self.tokens):
+            return self.tokens[self.pos]
+        return None
+
+    def next_token(self):
+        token = self.peek()
+        self.pos += 1
+        return token
+    
+    def parse_expression(self):
+        left = self.parse_term()
+        while peek() in ['+', '-']:
+            op = next_token()
+            right = parse_term()
+            left = (op, left, right)
+        return left
+    
+    def parse_term(self):
+        left= self.parse_factor()
+        while self.peek() in ['+','-']:
+            op= self.next_token()
+            right= self.parse_term()
+            left= (op,left,right)
+        return left 
+    
+    def parse_factor(self):
+        token= self.next_token()
+
+        if token.isdigit():
+            return int(token)
+        
+        elif token == '(':
+            expr= self.parse_expression()
+
+            if self.next_token() != ')':
+                raise SyntaxError("Im expecting a ')'. ")
+            
+            return expr
+        
+        raise SyntaxError(f"Unexpected token: {token}")
+    
+    def parse(self):
+        return self.parse_expression()
+    
+    def evaluate(node):
+        if isinstance(node,int):
+            return node
+        if isinstance(node,str):
+            return variables[node]
+        
+        op,left,right= node
+        if op =='+': return evaluate(left) + evaluate(right)
+        if op == '-': return evaluate(left) - evaluate(right)
+        if op == '/': return evaluate(left) / evaluate(right)
+        if op == '*': return evaluate(left) * evaluate(right)
+        
+    
+
+tokens= tokenize("3 + 4  * 2")
+
+parser= Parser("3 + 4 * 2")
+res= parser.parse()
+print(res)
+
+
+    
+
+
+    
+
+        
+        
+
 
 
 #test case
