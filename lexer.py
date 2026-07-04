@@ -19,3 +19,18 @@ class Lexer:
     def __init__(self, text):
         self.text = text   # the raw source string we are scanning
         self.pos  = 0      # cursor: index of the CURRENT character
+
+    def current(self):
+        # Return the character at the cursor, or None if past the end.
+        if self.pos < len(self.text):
+            return self.text[self.pos]
+        return None
+ 
+    def advance(self):
+        # Move the cursor forward by one character.
+        self.pos += 1
+ 
+    def skip_whitespace(self):
+        # Keep advancing while the current character is a space or tab.
+        while self.current() is not None and self.current() in ' \t':
+            self.advance()
