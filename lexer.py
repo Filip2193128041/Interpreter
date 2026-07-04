@@ -15,3 +15,7 @@ class Token:
     def __repr__(self):
         # Makes print(token) readable, e.g.  Token(NUMBER, 42)
         return f"Token({self.type}, {self.value!r})"
+class Lexer:
+    def __init__(self, text):
+        self.text = text   # the raw source string we are scanning
+        self.pos  = 0      # cursor: index of the CURRENT character
